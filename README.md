@@ -2,7 +2,9 @@ This is a modified tracking module for vatic.
 Dlib correlation tracker is added. 
 
 INSTALLATION:
+
 1. Edit setup.py first to make sure you are pointing to the correct location of opencv
+
 2. python setup.py install
 
 Original README:
