@@ -20,10 +20,15 @@ source = [
     "cpptrack/BiTldTrackerModule.cpp",
 ]
 
+#    extra_link_args=['-fpermissive'],
+#    extra_compile_args=['-fpermissive', '-std=c++11'],
+# the extension here needs to be pointing to the correct version of opencv
 extensions = Extension(
     "cpptrack",
     sources=source,
-    libraries=["opencv_highgui", "opencv_core", "opencv_imgproc", "opencv_legacy"],
+    include_dirs = ['/opt/opencv-2.4.12/include'],
+    library_dirs = ['/opt/opencv-2.4.12/lib'],
+    libraries=["opencv_highgui", "opencv_core", "opencv_imgproc","opencv_legacy"],
     language="c++",
 )
 

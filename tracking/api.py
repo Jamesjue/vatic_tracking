@@ -6,7 +6,7 @@ from tracking.base import Path
 
 onlinetrackers = {}
 onlinetrackers.update(pytrack.online)
-onlinetrackers.update(cpptrack.online)
+#onlinetrackers.update(cpptrack.online)
 
 bidirectionaltrackers = {}
 bidirectionaltrackers.update(pytrack.bidirectional)
