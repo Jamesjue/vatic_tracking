@@ -7,6 +7,8 @@ from optflowutil import getpoints, meanshift
 import dlib
 import vision
 
+MAX_TRACKING_FRAMES=51
+
 # j:
 # use dlib's correlation tracking
 class CorrelationTracking(Online):
@@ -30,7 +32,9 @@ class CorrelationTracking(Online):
         tracker = dlib.correlation_tracker()
         tracker.start_track(previmage, dlib.rectangle(startbox.xtl, startbox.ytl, startbox.xbr, startbox.ybr))
         boxes={}
-        for i in range(start+1,stop):
+
+        t_stop = min(start+MAX_TRACKING_FRAMES, stop)
+        for i in range(start+1,t_stop):
             nextimage=frames[i]
             if nextimage is None:
                 break
@@ -46,6 +50,16 @@ class CorrelationTracking(Online):
                 generated=True
             )
 
+        # for images over the max tracking number, just use the last image as its labels
+        for i in range(t_stop, stop):
+            boxes[i] = vision.Box(
+                max(0, x1),
+                max(0, y1),
+                min(imagesize[1], x2),
+                min(imagesize[0], y2),
+                frame=i,
+                generated=True
+            )
 
         # for i in range(start, stop):
         #     image = frames[i]
