@@ -1,6 +1,6 @@
 from distutils.core import setup
 from distutils.extension import Extension
-from Cython.Build import cythonize
+# from Cython.Build import cythonize
 
 source = [
     "cpptrack/cpptrack.pyx",
@@ -23,19 +23,22 @@ source = [
 #    extra_link_args=['-fpermissive'],
 #    extra_compile_args=['-fpermissive', '-std=c++11'],
 # the extension here needs to be pointing to the correct version of opencv
-extensions = Extension(
-    "cpptrack",
-    sources=source,
-    include_dirs = ['/opt/opencv-2.4.12/include'],
-    library_dirs = ['/opt/opencv-2.4.12/lib'],
-    libraries=["opencv_highgui", "opencv_core", "opencv_imgproc","opencv_legacy"],
-    language="c++",
-)
+
+# extensions = Extension(
+#     "cpptrack",
+#     sources=source,
+#     include_dirs = ['/opt/opencv-2.4.12/include'],
+#     library_dirs = ['/opt/opencv-2.4.12/lib'],
+#     libraries=["opencv_highgui", "opencv_core", "opencv_imgproc","opencv_legacy"],
+#     language="c++",
+# )
 
 setup(
     name = "tracking",
     author = "John Doherty, Charlie Ma",
     packages = ["tracking", "pytrack"],
-    ext_modules = cythonize(extensions),
-    data_files=[('config', ['./cpptrack/TLDparameters.yml'])]
 )
+# jj: not using cpp tracking for now
+#    ext_modules = cythonize(extensions),
+#    data_files=[('config', ['./cpptrack/TLDparameters.yml'])]
+
