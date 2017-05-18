@@ -1,5 +1,5 @@
 import pytrack
-import cpptrack
+#import cpptrack
 from utils import filterboxes
 from tracking.base import Path
 
@@ -10,11 +10,11 @@ onlinetrackers.update(pytrack.online)
 
 bidirectionaltrackers = {}
 bidirectionaltrackers.update(pytrack.bidirectional)
-bidirectionaltrackers.update(cpptrack.bidirectional)
+#bidirectionaltrackers.update(cpptrack.bidirectional)
 
 multiobjecttrackers = {}
 multiobjecttrackers.update(pytrack.multiobject)
-multiobjecttrackers.update(cpptrack.multiobject)
+#multiobjecttrackers.update(cpptrack.multiobject)
 
 def gettrackers():
     return {
