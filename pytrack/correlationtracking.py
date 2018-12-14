@@ -7,7 +7,8 @@ from optflowutil import getpoints, meanshift
 import dlib
 import vision
 
-MAX_TRACKING_FRAMES=51
+# jj: set max tracking frames to be really high
+MAX_TRACKING_FRAMES=10000000
 
 # j:
 # use dlib's correlation tracking
