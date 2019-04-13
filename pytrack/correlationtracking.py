@@ -7,8 +7,11 @@ from optflowutil import getpoints, meanshift
 import dlib
 import vision
 
-# jj: set max tracking frames to be really high
-MAX_TRACKING_FRAMES=10000000
+# max tracking determines how many seconds
+# user needs to wait for tracking.
+MAX_TRACKING_FRAMES=600
+# tracker stops when the result confidence is less than this value
+TRACKER_LOW_CONF=0.5
 
 # j:
 # use dlib's correlation tracking
@@ -39,14 +42,26 @@ class CorrelationTracking(Online):
             nextimage=frames[i]
             if nextimage is None:
                 break
-            tracker.update(nextimage)
+            conf = tracker.update(nextimage)
+
+            # stop if tracker result is of low conflience
+            if conf < TRACKER_LOW_CONF:
+                t_stop = i
+                break
+		
             dlib_pos= tracker.get_position()
-            (x1, y1, x2,y2)=(int(dlib_pos.left()), int(dlib_pos.top()), int(dlib_pos.right()), int(dlib_pos.bottom()))
+            (x1, y1, x2, y2)=(int(dlib_pos.left()), int(dlib_pos.top()), int(dlib_pos.right()), int(dlib_pos.bottom()))
+            x1 = max(0, x1)
+            y1 = max(0, y1)
+            x2 = min(imagesize[1], x2)
+            y2 = min(imagesize[0], y2)
+            # stop if the tracker result is invalid
+            if x1 >= x2 or y1 >= y2:
+                t_stop = i
+                break
+
             boxes[i] = vision.Box(
-                max(0, x1),
-                max(0, y1),
-                min(imagesize[1], x2),
-                min(imagesize[0], y2),
+                x1, y1, x2, y2,
                 frame=i,
                 generated=True
             )
