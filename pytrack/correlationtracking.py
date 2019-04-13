@@ -11,7 +11,9 @@ import vision
 # user needs to wait for tracking.
 MAX_TRACKING_FRAMES=600
 # tracker stops when the result confidence is less than this value
-TRACKER_LOW_CONF=0.5
+# this number is compared to the peak to side lobe ratio
+# which typically is >10 when tracking is really confidence
+TRACKER_LOW_CONF=1.0
 
 # j:
 # use dlib's correlation tracking
