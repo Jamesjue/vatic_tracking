@@ -13,7 +13,7 @@ MAX_TRACKING_FRAMES=600
 # tracker stops when the result confidence is less than this value
 # this number is compared to the peak to side lobe ratio
 # which typically is >10 when tracking is really confidence
-TRACKER_LOW_CONF=1.0
+TRACKER_LOW_CONF=5.0
 
 # j:
 # use dlib's correlation tracking
@@ -52,16 +52,23 @@ class CorrelationTracking(Online):
                 break
 		
             dlib_pos= tracker.get_position()
-            (x1, y1, x2, y2)=(int(dlib_pos.left()), int(dlib_pos.top()), int(dlib_pos.right()), int(dlib_pos.bottom()))
-            x1 = max(0, x1)
-            y1 = max(0, y1)
-            x2 = min(imagesize[1], x2)
-            y2 = min(imagesize[0], y2)
+            (x1_next, y1_next, x2_next, y2_next)=(int(dlib_pos.left()), int(dlib_pos.top()), int(dlib_pos.right()), int(dlib_pos.bottom()))
+
+            # bound 
+            x1_next = min(max(0, x1_next), imagesize[1] -1)
+            y1_next = min(max(0, y1_next), imagesize[0] -1)
+            x2_next = max(min(imagesize[1]-1, x2_next), 0)
+            y2_next = max(min(imagesize[0]-1, y2_next), 0)
+
             # stop if the tracker result is invalid
-            if x1 >= x2 or y1 >= y2:
+            if x1_next >= x2_next or y1_next >= y2_next:
                 t_stop = i
                 break
 
+            x1 = x1_next
+            y1 = y1_next
+            x2 = x2_next
+            y2 = y2_next
             boxes[i] = vision.Box(
                 x1, y1, x2, y2,
                 frame=i,
@@ -73,8 +80,8 @@ class CorrelationTracking(Online):
             boxes[i] = vision.Box(
                 max(0, x1),
                 max(0, y1),
-                min(imagesize[1], x2),
-                min(imagesize[0], y2),
+                min(imagesize[1]-1, x2),
+                min(imagesize[0]-1, y2),
                 frame=i,
                 generated=True
             )
