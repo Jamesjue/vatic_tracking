@@ -1,9 +1,9 @@
-from meanshift import CamShift
-from opticalflow import OpticalFlow
-from bidirectionaloptflow import BidirectionalOptFlow
-from backgroundsubtract import BackgroundSubtract
-from templatematching import TemplateMatch, BidirectionalTemplateMatch
-from correlationtracking import CorrelationTracking
+from .meanshift import CamShift
+from .opticalflow import OpticalFlow
+from .bidirectionaloptflow import BidirectionalOptFlow
+from .backgroundsubtract import BackgroundSubtract
+from .templatematching import TemplateMatch, BidirectionalTemplateMatch
+from .correlationtracking import CorrelationTracking
 
 #online = {"Mean Shift": MeanShift}
 online = {

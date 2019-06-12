@@ -1,9 +1,9 @@
 import numpy as np
 import cv2
 from tracking.base import Online
-from utils import getframes
+from .utils import getframes
 from tracking.base import Path
-from optflowutil import getpoints, meanshift
+from .optflowutil import getpoints, meanshift
 
 
 class OpticalFlow(Online):

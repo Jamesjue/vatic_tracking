@@ -30,7 +30,7 @@ def meanshift(start, stop, framepoints, initialrect, imagesize, iterations=5):
                 generated=True
             )
         else:
-            print "Frame {0} lost in {1} to {2}".format(frame, start, stop)
+            print("Frame {0} lost in {1} to {2}".format(frame, start, stop))
             boxes[frame] = vision.Box(
                 max(0, rect[0]),
                 max(0, rect[1]),
@@ -75,8 +75,8 @@ def boxforpoints(points, width, height, imagesize, frame):
     m = np.mean(np.array(points), axis=0)
     rect = (m[0] - (0.5 * width), m[1] - (0.5 * height), width, height)
     rect = rectforpoints(points, rect)
-    print imagesize
-    print rect
+    print(imagesize)
+    print(rect)
     return vision.Box(
         max(0, rect[0]),
         max(0, rect[1]),

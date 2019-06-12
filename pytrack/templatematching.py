@@ -1,7 +1,7 @@
 import numpy as np
 import vision
 import cv2
-from utils import getframes
+from .utils import getframes
 from tracking.base import Online, Bidirectional
 from tracking.base import Path
 
@@ -17,7 +17,7 @@ def filterlost(boxes, imagesize):
              newboxes[frame].ytl < PADDING or
              newboxes[frame].xbr > (imagesize[1] - PADDING) or
              newboxes[frame].ybr > (imagesize[0] - PADDING))):
-            print "Lost at frame {0}".format(frame)
+            print("Lost at frame {0}".format(frame))
             newboxes[frame].lost = True
             break
 
@@ -79,7 +79,7 @@ class TemplateMatch(Online):
         if start not in path.boxes:
             return Path(path.label, path.id, {})
 
-        print "Tracking from {0} to {1}".format(start, stop)
+        print("Tracking from {0} to {1}".format(start, stop))
         startbox = path.boxes[start]
         initialrect = (startbox.xtl, startbox.ytl, startbox.xbr-startbox.xtl, startbox.ybr-startbox.ytl)
         frames = getframes(basepath, False)
@@ -127,7 +127,7 @@ class BidirectionalTemplateMatch(Bidirectional):
 
         commonframes = list(set(forwardboxes.keys()) & set(backwardboxes.keys()))
         scores = [mergescore(forwardboxes[i], backwardboxes[i]) for i in commonframes]
-        mergeframe = min(zip(commonframes, scores), key=lambda a: a[1])[0]
+        mergeframe = min(list(zip(commonframes, scores)), key=lambda a: a[1])[0]
 
         boxes = {}
         for frame in range(start, stop):

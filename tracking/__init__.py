@@ -1,2 +1,2 @@
-import api
-import base
+from . import api
+from . import base

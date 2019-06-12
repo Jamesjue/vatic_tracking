@@ -1,9 +1,9 @@
 import numpy as np
 import cv2
 from tracking.base import Online, Bidirectional
-from utils import getframes
+from .utils import getframes
 from tracking.base import Path
-from optflowutil import getpoints, meanshift
+from .optflowutil import getpoints, meanshift
 
 class BidirectionalOptFlow(Bidirectional):
 
@@ -30,9 +30,9 @@ class BidirectionalOptFlow(Bidirectional):
         meandiff = np.sum(np.square(forwardmean - backwardmean), axis=1)
         mergeframe = rowtoframe[np.argmin(meandiff)]
 
-        print "Start frame", start
-        print "end frame", stop
-        print "Merge frame", mergeframe
+        print("Start frame", start)
+        print("end frame", stop)
+        print("Merge frame", mergeframe)
  
         startboxes = meanshift(start, mergeframe - 5, forwardpoints, initialrect, imagesize)
         stopboxes = meanshift(stop, mergeframe + 5, backwardpoints, finalrect, imagesize)
