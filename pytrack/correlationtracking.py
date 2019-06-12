@@ -1,11 +1,10 @@
 import numpy as np
 import cv2
-from tracking.base import Online
+from tracking.base import Online, Box
 from .utils import getframes
 from tracking.base import Path
 from .optflowutil import getpoints, meanshift
 import dlib
-import vision
 
 # max tracking determines how many seconds
 # user needs to wait for tracking.
@@ -69,7 +68,7 @@ class CorrelationTracking(Online):
             y1 = y1_next
             x2 = x2_next
             y2 = y2_next
-            boxes[i] = vision.Box(
+            boxes[i] = Box(
                 x1, y1, x2, y2,
                 frame=i,
                 generated=True
@@ -77,7 +76,7 @@ class CorrelationTracking(Online):
 
         # for images over the max tracking number, just use the last image as its labels
         for i in range(t_stop, stop):
-            boxes[i] = vision.Box(
+            boxes[i] = Box(
                 max(0, x1),
                 max(0, y1),
                 min(imagesize[1]-1, x2),

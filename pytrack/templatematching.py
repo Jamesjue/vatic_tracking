@@ -1,9 +1,8 @@
 import numpy as np
-import vision
 import cv2
 from .utils import getframes
 from tracking.base import Online, Bidirectional
-from tracking.base import Path
+from tracking.base import Path, Box
 
 PADDING = 3
 
@@ -61,7 +60,7 @@ def templatematch(start, stop, initialrect, frames):
         prevrect = best[0]
         previmage = image.copy()
 
-        boxes[i] = vision.Box(
+        boxes[i] = Box(
             max(0, prevrect[0]),
             max(0, prevrect[1]),
             min(imagesize[1], prevrect[0] + prevrect[2]),

@@ -1,6 +1,7 @@
 import numpy as np
-import vision
 import cv2
+
+from tracking.base import Box
 
 def insideframe(rect, imagesize):
     return (rect[0] >= 0 and
@@ -21,7 +22,7 @@ def meanshift(start, stop, framepoints, initialrect, imagesize, iterations=5):
         # If we updated the rect save it and continue to the next frame
         # otherwise mark as lost
         if haspoints and insideframe(rect, imagesize):
-            boxes[frame] = vision.Box(
+            boxes[frame] = Box(
                 max(0, rect[0]),
                 max(0, rect[1]),
                 min(imagesize[1], rect[0] + initialrect[2]),
@@ -31,7 +32,7 @@ def meanshift(start, stop, framepoints, initialrect, imagesize, iterations=5):
             )
         else:
             print("Frame {0} lost in {1} to {2}".format(frame, start, stop))
-            boxes[frame] = vision.Box(
+            boxes[frame] = Box(
                 max(0, rect[0]),
                 max(0, rect[1]),
                 min(imagesize[1], rect[0] + initialrect[2]),
@@ -77,7 +78,7 @@ def boxforpoints(points, width, height, imagesize, frame):
     rect = rectforpoints(points, rect)
     print(imagesize)
     print(rect)
-    return vision.Box(
+    return Box(
         max(0, rect[0]),
         max(0, rect[1]),
         min(imagesize[1], rect[0] + rect[2]),
