@@ -2,8 +2,8 @@ import numpy as np
 import cv2
 from tracking.base import Path
 from tracking.base import Online
+from tracking.base import Box
 from .utils import getframes
-import vision
 
 class CamShift(Online):
     def track(self, pathid, start, stop, basepath, paths):
@@ -55,7 +55,7 @@ class CamShift(Online):
             x1,y1,w,h=rect
             x2=x1+w-1
             y2=y1+h-1
-            boxes[i] = vision.Box(
+            boxes[i] = Box(
                 max(0, x1),
                 max(0, y1),
                 min(imagesize[1], x2),
